@@ -76,17 +76,21 @@ function initAudioSystem() {
     vid.muted = true;
   }
 
-  // Auto-start music on first user gesture (click, keypress, or scroll)
+  // Auto-start music on first user gesture (click, touch, pointer, or keypress)
   const startOnInteraction = () => {
     if (bgAudio && !isPausedForVideo) {
       bgAudio.play().catch(() => {});
     }
     window.removeEventListener('click', startOnInteraction);
+    window.removeEventListener('touchstart', startOnInteraction);
+    window.removeEventListener('pointerdown', startOnInteraction);
     window.removeEventListener('keydown', startOnInteraction);
     window.removeEventListener('scroll', startOnInteraction);
   };
 
   window.addEventListener('click', startOnInteraction, { once: true });
+  window.addEventListener('touchstart', startOnInteraction, { once: true });
+  window.addEventListener('pointerdown', startOnInteraction, { once: true });
   window.addEventListener('keydown', startOnInteraction, { once: true });
   window.addEventListener('scroll', startOnInteraction, { once: true });
 }
