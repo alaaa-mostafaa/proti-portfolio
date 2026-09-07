@@ -25,31 +25,27 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Global Click Sound Effect Player
+ * Global Click Sound Effect Player — reuses a single AudioContext to avoid mobile lag
  */
+let _clickCtx = null;
 function playClickSound() {
   try {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (AudioCtx) {
-      const ctx = new AudioCtx();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(800, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.04);
-      gain.gain.setValueAtTime(0.25, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.04);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 0.04);
-    }
-  } catch (e) {}
+    const AudioCtxCls = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtxCls) return;
+    if (!_clickCtx) _clickCtx = new AudioCtxCls();
+    if (_clickCtx.state === 'suspended') _clickCtx.resume();
 
-  try {
-    const clickAudio = new Audio('./sounds/click.mp3');
-    clickAudio.volume = 0.45;
-    clickAudio.play().catch(() => {});
+    const osc = _clickCtx.createOscillator();
+    const gain = _clickCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(800, _clickCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(300, _clickCtx.currentTime + 0.04);
+    gain.gain.setValueAtTime(0.25, _clickCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, _clickCtx.currentTime + 0.04);
+    osc.connect(gain);
+    gain.connect(_clickCtx.destination);
+    osc.start();
+    osc.stop(_clickCtx.currentTime + 0.04);
   } catch (e) {}
 }
 window.playClickSound = playClickSound;

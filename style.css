@@ -2459,7 +2459,7 @@ section.swatches-section.section {
 .bach-screen {
   width: 100%;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* Shared dark background */
@@ -2468,6 +2468,7 @@ section.swatches-section.section {
   inset: 0;
   background: #140a00;
   z-index: 0;
+  pointer-events: none;
 }
 
 /* Radial orange glow overlay */
@@ -2475,6 +2476,7 @@ section.swatches-section.section {
   position: absolute;
   inset: 0;
   z-index: 1;
+  pointer-events: none;
   background:
     radial-gradient(ellipse 60% 50% at 70% 50%, rgba(249, 115, 22, 0.08) 0%, transparent 70%),
     linear-gradient(to bottom,
@@ -3352,6 +3354,7 @@ section.swatches-section.section {
   background-position: 0 0, 20px 20px;
   z-index: 0;
   opacity: 0.6;
+  pointer-events: none;
 }
 
 .bank-overlay {
@@ -3359,6 +3362,7 @@ section.swatches-section.section {
   inset: 0;
   background: radial-gradient(circle at center, transparent 0%, rgba(3, 8, 16, 0.8) 100%);
   z-index: 1;
+  pointer-events: none;
 }
 
 .bank-screen {
@@ -3367,7 +3371,7 @@ section.swatches-section.section {
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   padding: 4rem 3rem 3rem;
   z-index: 2;
   opacity: 0;
@@ -3708,6 +3712,28 @@ section.swatches-section.section {
     width: 100% !important;
     text-align: center !important;
     justify-content: center !important;
+  }
+
+  /* Disable expensive backdrop-filter on mobile for performance */
+  .bank-modal-backdrop, .bach-modal-backdrop, .acl-modal-backdrop {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Ensure bg/overlay layers never steal touches on mobile */
+  .bs-bg, .bs-overlay, .bank-bg, .bank-overlay {
+    pointer-events: none !important;
+  }
+
+  /* Ensure screens allow visible overflow for buttons */
+  .bach-screen, .bank-screen {
+    overflow: visible !important;
+  }
+
+  /* Ensure swatch cards are always tappable */
+  .swatch-card {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 }
 
