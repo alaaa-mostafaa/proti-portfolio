@@ -78,8 +78,9 @@ function initAudioSystem() {
     bgAudio = document.getElementById('bg-audio');
     if (!bgAudio) {
       bgAudio = new Audio('./sounds/bg.mp3');
+      bgAudio.loop = true;
+      bgAudio.autoplay = true;
     }
-    bgAudio.loop = true;
     bgAudio.volume = 0.3;
 
     // 30-second continuous looping logic
@@ -102,21 +103,22 @@ function initAudioSystem() {
     vid.muted = true;
   }
 
-  const startMusic = () => {
+  const enableAudio = () => {
     if (!bgAudio || isPausedForVideo) return;
+    bgAudio.muted = false;
     bgAudio.play().then(() => {
-      ['click', 'touchstart', 'pointerdown', 'mousemove', 'scroll', 'keydown', 'mouseenter'].forEach(evt => {
-        window.removeEventListener(evt, startMusic);
+      ['mousemove', 'pointermove', 'scroll', 'mouseenter', 'focus', 'click', 'touchstart', 'keydown'].forEach(evt => {
+        window.removeEventListener(evt, enableAudio);
       });
     }).catch(() => {});
   };
 
-  startMusic();
-  window.addEventListener('load', startMusic, { once: true });
-  window.addEventListener('pageshow', startMusic);
+  enableAudio();
+  window.addEventListener('load', enableAudio, { once: true });
+  window.addEventListener('pageshow', enableAudio);
 
-  ['click', 'touchstart', 'pointerdown', 'mousemove', 'scroll', 'keydown', 'mouseenter'].forEach(evt => {
-    window.addEventListener(evt, startMusic, { once: false });
+  ['mousemove', 'pointermove', 'scroll', 'mouseenter', 'focus', 'click', 'touchstart', 'keydown'].forEach(evt => {
+    window.addEventListener(evt, enableAudio, { once: false });
   });
 }
 
