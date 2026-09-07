@@ -57,7 +57,7 @@ window.resumeBgMusicAfterVideo = function () {
  */
 function initAudioSystem() {
   try {
-    bgAudio = new Audio('./sounds/bg.mp3');
+    bgAudio = document.getElementById('bg-audio') || new Audio('./sounds/bg.mp3');
     bgAudio.loop = true;
     bgAudio.volume = 0.28;
 
@@ -81,24 +81,32 @@ function initAudioSystem() {
     vid.muted = true;
   }
 
-  // Attempt immediate playback on page load with zero clicks required
-  if (bgAudio && !isPausedForVideo) {
-    bgAudio.play().catch(() => {
-      // If browser autoplay policy blocks initial unmuted audio, start on any mouse movement, scroll, touch, or keypress
-      const startAudio = () => {
-        if (bgAudio && !isPausedForVideo) {
-          bgAudio.play().catch(() => {});
-        }
-        ['click', 'touchstart', 'pointerdown', 'mousemove', 'scroll', 'keydown'].forEach(evt => {
-          window.removeEventListener(evt, startAudio);
-        });
-      };
+  const attemptPlay = () => {
+    if (bgAudio && !isPausedForVideo) {
+      const promise = bgAudio.play();
+      if (promise !== undefined) {
+        promise.catch(() => {
+          // If browser policy blocks initial unmuted audio, start on any interaction/mousemove/scroll/hover
+          const startAudio = () => {
+            if (bgAudio && !isPausedForVideo) {
+              bgAudio.play().catch(() => {});
+            }
+            ['click', 'touchstart', 'pointerdown', 'mousemove', 'scroll', 'keydown', 'focus'].forEach(evt => {
+              window.removeEventListener(evt, startAudio);
+            });
+          };
 
-      ['click', 'touchstart', 'pointerdown', 'mousemove', 'scroll', 'keydown'].forEach(evt => {
-        window.addEventListener(evt, startAudio, { once: true });
-      });
-    });
-  }
+          ['click', 'touchstart', 'pointerdown', 'mousemove', 'scroll', 'keydown', 'focus'].forEach(evt => {
+            window.addEventListener(evt, startAudio, { once: true });
+          });
+        });
+      }
+    }
+  };
+
+  attemptPlay();
+  window.addEventListener('load', attemptPlay, { once: true });
+  window.addEventListener('pageshow', attemptPlay);
 }
 
 /**
