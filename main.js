@@ -28,6 +28,24 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 function playClickSound() {
   try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (AudioCtx) {
+      const ctx = new AudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(800, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.04);
+      gain.gain.setValueAtTime(0.25, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.04);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.04);
+    }
+  } catch (e) {}
+
+  try {
     const clickAudio = new Audio('./sounds/click.mp3');
     clickAudio.volume = 0.45;
     clickAudio.play().catch(() => {});
@@ -57,9 +75,12 @@ window.resumeBgMusicAfterVideo = function () {
  */
 function initAudioSystem() {
   try {
-    bgAudio = document.getElementById('bg-audio') || new Audio('./sounds/bg.mp3');
+    bgAudio = document.getElementById('bg-audio');
+    if (!bgAudio) {
+      bgAudio = new Audio('./sounds/bg.mp3');
+    }
     bgAudio.loop = true;
-    bgAudio.volume = 0.28;
+    bgAudio.volume = 0.3;
 
     // 30-second continuous looping logic
     bgAudio.addEventListener('timeupdate', () => {
@@ -81,32 +102,22 @@ function initAudioSystem() {
     vid.muted = true;
   }
 
-  const attemptPlay = () => {
-    if (bgAudio && !isPausedForVideo) {
-      const promise = bgAudio.play();
-      if (promise !== undefined) {
-        promise.catch(() => {
-          // If browser policy blocks initial unmuted audio, start on any interaction/mousemove/scroll/hover
-          const startAudio = () => {
-            if (bgAudio && !isPausedForVideo) {
-              bgAudio.play().catch(() => {});
-            }
-            ['click', 'touchstart', 'pointerdown', 'mousemove', 'scroll', 'keydown', 'focus'].forEach(evt => {
-              window.removeEventListener(evt, startAudio);
-            });
-          };
-
-          ['click', 'touchstart', 'pointerdown', 'mousemove', 'scroll', 'keydown', 'focus'].forEach(evt => {
-            window.addEventListener(evt, startAudio, { once: true });
-          });
-        });
-      }
-    }
+  const startMusic = () => {
+    if (!bgAudio || isPausedForVideo) return;
+    bgAudio.play().then(() => {
+      ['click', 'touchstart', 'pointerdown', 'mousemove', 'scroll', 'keydown', 'mouseenter'].forEach(evt => {
+        window.removeEventListener(evt, startMusic);
+      });
+    }).catch(() => {});
   };
 
-  attemptPlay();
-  window.addEventListener('load', attemptPlay, { once: true });
-  window.addEventListener('pageshow', attemptPlay);
+  startMusic();
+  window.addEventListener('load', startMusic, { once: true });
+  window.addEventListener('pageshow', startMusic);
+
+  ['click', 'touchstart', 'pointerdown', 'mousemove', 'scroll', 'keydown', 'mouseenter'].forEach(evt => {
+    window.addEventListener(evt, startMusic, { once: false });
+  });
 }
 
 /**
