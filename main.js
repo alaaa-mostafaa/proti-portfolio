@@ -76,23 +76,24 @@ function initAudioSystem() {
     vid.muted = true;
   }
 
-  // Auto-start music on first user gesture (click, touch, pointer, or keypress)
-  const startOnInteraction = () => {
-    if (bgAudio && !isPausedForVideo) {
-      bgAudio.play().catch(() => {});
-    }
-    window.removeEventListener('click', startOnInteraction);
-    window.removeEventListener('touchstart', startOnInteraction);
-    window.removeEventListener('pointerdown', startOnInteraction);
-    window.removeEventListener('keydown', startOnInteraction);
-    window.removeEventListener('scroll', startOnInteraction);
-  };
+  // Attempt immediate playback on page load with zero clicks required
+  if (bgAudio && !isPausedForVideo) {
+    bgAudio.play().catch(() => {
+      // If browser autoplay policy blocks initial unmuted audio, start on any mouse movement, scroll, touch, or keypress
+      const startAudio = () => {
+        if (bgAudio && !isPausedForVideo) {
+          bgAudio.play().catch(() => {});
+        }
+        ['click', 'touchstart', 'pointerdown', 'mousemove', 'scroll', 'keydown'].forEach(evt => {
+          window.removeEventListener(evt, startAudio);
+        });
+      };
 
-  window.addEventListener('click', startOnInteraction, { once: true });
-  window.addEventListener('touchstart', startOnInteraction, { once: true });
-  window.addEventListener('pointerdown', startOnInteraction, { once: true });
-  window.addEventListener('keydown', startOnInteraction, { once: true });
-  window.addEventListener('scroll', startOnInteraction, { once: true });
+      ['click', 'touchstart', 'pointerdown', 'mousemove', 'scroll', 'keydown'].forEach(evt => {
+        window.addEventListener(evt, startAudio, { once: true });
+      });
+    });
+  }
 }
 
 /**
