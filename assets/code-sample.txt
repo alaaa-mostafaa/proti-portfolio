@@ -1,0 +1,27 @@
+nox > Running session tests_compiler(gcc-8)
+nox > python -m pytest -- doc gcovr
+============================= test session starts ==============================
+platform linux -- Python 3.8.18, pytest-7.4.3, pluggy-1.3.0
+collecting ... collected 553 items
+
+doc/examples/test_examples.py::test_example[example_csv.csv] FAILED      [  0%]
+doc/examples/test_examples.py::test_example[example_cmake.txt] FAILED    [  0%]
+doc/examples/test_examples.py::test_example[example_branches.txt] FAILED [  0%]
+doc/examples/test_examples.py::test_timestamps_example PASSED            [  1%]
+gcovr/configuration.py::gcovr.configuration.ConfigEntry.error PASSED     [  1%]
+gcovr/tests/test_args.py::test_multiple_output_formats FAILED            [ 17%]
+
+=================================== FAILURES ===================================
+_____________________ test_example[example_csv.csv] _____________________
+    
+    def test_example(example_csv):
+>       raise AssertionError("Trouble processing 'example.gcda'")
+E       AssertionError: Trouble processing 'example.gcda'
+E       You can run gcovr with --gcov-ignore-parse-errors to continue anyway.
+
+gcovr/tests/test_args.py:191: AssertionError
+=========================== short test summary info ============================
+FAILED doc/examples/test_examples.py::test_example[example_csv.csv]
+FAILED gcovr/tests/test_args.py::test_multiple_output_formats
+================== 9 failed, 544 passed in 51.79 seconds =======================
+nox > Session tests_compiler(gcc-8) failed with exit code 1

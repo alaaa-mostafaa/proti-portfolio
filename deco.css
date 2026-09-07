@@ -1,0 +1,152 @@
+/* ==========================================================================
+   CLOUD BAND — Section 1 / Section 2 separator
+   ========================================================================== */
+.cloud-band {
+  position: relative;
+  width: 100%;
+  height: 140px;
+  z-index: 20;
+  pointer-events: none;
+  overflow: visible;
+  margin-top: -35px;
+  margin-bottom: -105px;
+}
+
+.cloud-item {
+  position: absolute;
+  bottom: 10px;
+  pointer-events: none;
+}
+
+.cloud-item.c1 { left: -2%;  width: 190px; animation: cloudDrift 7s   ease-in-out infinite; }
+.cloud-item.c2 { left: 14%;  width: 145px; animation: cloudDrift 9s   ease-in-out infinite 1s;   bottom: 35px; }
+.cloud-item.c3 { left: 32%;  width: 115px; animation: cloudDrift 8s   ease-in-out infinite 0.5s; bottom: 8px; }
+
+@keyframes cloudDrift {
+  0%, 100% { transform: translateX(0px)  translateY(0px); }
+  33%       { transform: translateX(9px)  translateY(-6px); }
+  66%       { transform: translateX(-7px) translateY(4px); }
+}
+
+/* ==========================================================================
+   SECTION 2 DECORATIVE ELEMENTS
+   Positioned in open whitespace and empty slots (away from active cards)
+   ========================================================================== */
+.sec2-deco {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.deco-elem {
+  position: absolute;
+  image-rendering: auto;
+}
+
+/* ---- RIBBON SPRITES (4-frame animated ribbons) ---- */
+.ribbon-sprite {
+  width: 170px;
+  height: 91px;
+  background-image: url('./assets/elemnts/ribbon_sprint.png');
+  background-size: 400% 100%;
+  background-repeat: no-repeat;
+  background-position-x: 0%;
+  image-rendering: pixelated;
+  animation: ribbonAnim 1.4s steps(1) infinite, decoFloat 5s ease-in-out infinite;
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.15));
+}
+
+/* Row 2 Left Empty Space */
+.ribbon-sprite.r2 {
+  top: 30%;
+  left: 4%;
+  width: 185px;
+  height: 99px;
+  transform: rotate(8deg) scaleX(-1);
+  animation: ribbonAnim 1.4s steps(1) infinite 0.4s, decoFloat 6s ease-in-out infinite 1s;
+}
+
+/* Row 4 Left Empty Space */
+.ribbon-sprite.r3 {
+  top: 76%;
+  left: 5%;
+  width: 155px;
+  height: 83px;
+  transform: rotate(-12deg);
+  animation: ribbonAnim 1.4s steps(1) infinite 0.2s, decoFloat 5.5s ease-in-out infinite 0.5s;
+}
+
+@keyframes ribbonAnim {
+  0%  { background-position-x: 0%; }
+  25% { background-position-x: 33.33%; }
+  50% { background-position-x: 66.66%; }
+  75% { background-position-x: 100%; }
+}
+
+/* ---- FLOWERS (Varied sizes from 45px to 95px) ---- */
+.deco-flower {
+  animation: decoSway 4s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+.deco-flower.f1 { width: 75px; top: 24%; right: 28%; animation-delay: 0s; }
+.deco-flower.f2 { width: 45px; top: 38%; left: 24%;  animation-delay: 1.2s; }
+
+@keyframes decoSway {
+  0%, 100% { transform: rotate(0deg); }
+  30%       { transform: rotate(8deg); }
+  70%       { transform: rotate(-6deg); }
+}
+
+/* ---- STARS & SPARKLES ---- */
+.deco-stars   { animation: decoPop 3s   ease-in-out infinite; }
+.deco-sparkle { animation: decoPop 2.5s ease-in-out infinite; }
+
+.deco-stars.s1    { width: 42px; top: 1.5%; right: 35%; animation-delay: 0s; }
+.deco-stars.s2    { width: 35px; top: 56%;  right: 26%; animation-delay: 1.5s; }
+.deco-sparkle.sp1 { width: 42px; top: 18%;  right: 4%;  animation-delay: 0.3s; }
+.deco-sparkle.sp2 { width: 24px; top: 44%;  left: 2%;   animation-delay: 1.0s; }
+.deco-sparkle.sp3 { width: 36px; top: 84%;  left: 28%;  animation-delay: 1.8s; }
+
+@keyframes decoPop {
+  0%, 100% { transform: scale(1)    rotate(0deg);  opacity: 0.85; }
+  50%       { transform: scale(1.25) rotate(15deg); opacity: 1; }
+}
+
+/* ---- DOTS (Varied sizes from 22px to 48px) ---- */
+.deco-dot { animation: decoFloat 4s ease-in-out infinite; }
+.deco-dot.do1 { width: 28px; top: 26%; left: 12%;  animation-delay: 0.9s; }
+.deco-dot.dp1 { width: 40px; top: 48%; left: 22%;  animation-delay: 1.4s; }
+.deco-dot.db2 { width: 22px; top: 68%; right: 18%; animation-delay: 0.6s; }
+.deco-dot.do2 { width: 36px; top: 90%; left: 12%;  animation-delay: 1.7s; }
+
+/* ---- SMALLS ---- */
+.deco-small { animation: decoFloat 5s ease-in-out infinite; }
+.deco-small.sm1 { width: 36px; top: 15%; right: 14%; animation-delay: 0.4s; }
+.deco-small.sm2 { width: 22px; top: 40%; left: 5%;   animation-delay: 1.1s; }
+.deco-small.sm3 { width: 30px; top: 74%; right: 13%; animation-delay: 0.8s; }
+
+/* ---- DEV ICONS (Varied sizes from 48px to 85px) ---- */
+.deco-icon { opacity: 0.85; }
+.deco-icon.ic1 { width: 68px; top: 7.5%; left: 34%; animation: decoFloat 6s ease-in-out infinite; transform: rotate(-10deg); }
+.deco-icon.ic2 { width: 54px; top: 27%; left: 22%;  animation: decoFloat 6s ease-in-out infinite 1.3s; transform: rotate(8deg); }
+.deco-icon.ic3 { width: 62px; top: 58%; right: 16%; animation: decoSpin  4s linear         infinite; }
+.deco-icon.ic4 { width: 48px; top: 82%; left: 2%;   animation: decoFloat 6s ease-in-out infinite 2s;   transform: rotate(15deg); }
+.deco-icon.ic5 { width: 56px; top: 3.5%; right: 6%; animation: decoFloat 6s ease-in-out infinite 0.7s; transform: rotate(-8deg); }
+/* ---- NEW ELEMENTS ---- */
+.deco-new { opacity: 0.9; }
+.deco-new.n1 { width: 110px; top: 18%; right: 8%; animation: decoFloat 5s ease-in-out infinite 0.5s; transform: rotate(5deg); }
+.deco-new.n2 { width: 130px; top: 46%; left: 6%; animation: decoFloat 6s ease-in-out infinite 1.2s; transform: rotate(-12deg); }
+.deco-new.n3 { width: 120px; top: 70%; right: 6%; animation: decoFloat 4.5s ease-in-out infinite 0.2s; transform: rotate(10deg); }
+.deco-new.n4 { width: 105px; top: 8%; left: 46%; animation: decoFloat 5.5s ease-in-out infinite 1.5s; transform: rotate(-5deg); }
+
+/* ---- SHARED KEYFRAMES ---- */
+@keyframes decoFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+@keyframes decoSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}

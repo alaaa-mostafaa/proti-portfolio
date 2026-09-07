@@ -1,0 +1,594 @@
+/* ==========================================================================
+   NASA PROJECT MODAL — PIXEL ART MUSEUM
+   ========================================================================== */
+
+/* ---- Pixel font shorthand ---- */
+.pxf {
+  font-family: 'Press Start 2P', monospace;
+}
+
+/* ---- Overlay ---- */
+.nasa-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: modalFadeIn 0.25s ease;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}.nasa-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: #0f2f2e;
+}
+
+/* ---- Panel ---- */
+.nasa-modal-panel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 960px;
+  max-height: 90vh;
+  overflow: hidden;
+  background: #0d0d1a;
+  /* pixel-art layered border */
+  box-shadow:
+    0 0 0 3px #dd93f2,
+    0 0 0 6px #0d0d1a,
+    0 0 0 9px #8b5cf6,
+    0 0 40px rgba(221, 147, 242, 0.35);
+  animation: panelSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes panelSlideUp {
+  from { transform: translateY(40px) scale(0.97); opacity: 0; }
+  to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* ---- Close button ---- */
+.nasa-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  z-index: 10;
+  background: rgba(221, 147, 242, 0.15);
+  border: 2px solid #dd93f2;
+  color: #dd93f2;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.6rem;
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.nasa-modal-close:hover {
+  background: #dd93f2;
+  color: #0d0d1a;
+}
+
+/* ---- Screen base ---- */
+.nasa-screen {
+  width: 100%;
+  min-height: 560px;
+  display: flex;
+}
+
+/* ================================================================
+   SCREEN 1
+   ================================================================ */
+.screen-1 {
+  background: #0d0d1a;
+  position: relative;
+  overflow: hidden;
+  min-height: 580px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Video fills the full screen 1 --- */
+.ns-video-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* --- Gradient overlay: dark top & bottom so badges and buttons read clearly --- */
+.ns-video-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(to bottom,
+      rgba(5, 0, 20, 0.88) 0%,
+      rgba(5, 0, 20, 0.35) 30%,
+      rgba(5, 0, 20, 0.35) 65%,
+      rgba(5, 0, 20, 0.92) 100%
+    );
+}
+
+/* --- All UI content sits above video + overlay --- */
+.ns-video-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  padding: 1.2rem 1.8rem 1.4rem;
+  gap: 0.5rem;
+}
+
+/* TOP ROW: Global Winner Title Text */
+.ns-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+}
+
+.ns-global-winner-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 1.2rem;
+  color: #ffd700;
+  text-shadow: 2px 2px 0px #8b5cf6;
+  margin: 0 auto;
+  padding: 0.5rem 0;
+  letter-spacing: 2px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* MID ROW: floating deco art + title side by side */
+.ns-mid-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5rem;
+  flex: 1;
+  padding: 0.5rem 0;
+}
+
+.ns-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* BOTTOM ROW: buttons + meet the team */
+.ns-bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Space apps header row */
+.ns-space-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Award badges — compact horizontal pills */
+.ns-badge {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.42rem;
+  padding: 0.4rem 0.65rem;
+  text-align: center;
+  letter-spacing: 1px;
+  line-height: 1.6;
+  white-space: nowrap;
+  animation: pixelPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.ns-badge--gold {
+  background: rgba(26, 16, 0, 0.85);
+  border: 2px solid #ffd700;
+  color: #ffd700;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.25);
+  animation-delay: 0.05s;
+}
+
+.ns-badge--purple {
+  background: rgba(18, 10, 26, 0.85);
+  border: 2px solid #dd93f2;
+  color: #dd93f2;
+  animation-delay: 0.15s;
+}
+
+.ns-badge--blue {
+  background: rgba(10, 15, 26, 0.85);
+  border: 2px solid #60a5fa;
+  color: #60a5fa;
+  animation-delay: 0.25s;
+}
+
+@keyframes pixelPop {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+/* Deco art: smaller floating accent */
+.ns-deco-art {
+  width: 160px;
+  flex-shrink: 0;
+  object-fit: contain;
+  filter: drop-shadow(0 0 16px rgba(221, 147, 242, 0.6));
+  animation: floatDeco 4s ease-in-out infinite alternate;
+  align-self: flex-end;
+}
+
+@keyframes floatDeco {
+  from { transform: translateY(0px); }
+  to   { transform: translateY(-10px); }
+}
+
+.ns-logo-img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 6px rgba(221, 147, 242, 0.6));
+}
+
+.ns-pixel-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.38rem;
+  color: rgba(221, 147, 242, 0.7);
+  letter-spacing: 1px;
+  line-height: 1.8;
+}
+
+/* Project title */
+.ns-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 1.05rem;
+  color: #ffffff;
+  line-height: 1.6;
+  text-shadow: 3px 3px 0 #8b5cf6, 6px 6px 0 rgba(139, 92, 246, 0.3);
+}
+
+/* Description */
+.ns-desc {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.85rem;
+  color: #c4c4d0;
+  line-height: 1.7;
+}
+
+/* Challenge tag */
+.ns-challenge-tag {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.38rem;
+  color: rgba(96, 165, 250, 0.75);
+  line-height: 2;
+  border-left: 3px solid #60a5fa;
+  padding-left: 0.6rem;
+}
+
+/* Action buttons (pixel art text style) */
+.ns-btns {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.ns-btn-pixel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  color: #0d0d1a;
+  background: #dd93f2;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 4px 4px 0 #8b5cf6;
+  text-decoration: none;
+}
+
+.ns-btn-pixel:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #8b5cf6;
+}
+
+/* Meet the team button */
+.ns-next-btn {
+  margin-top: auto;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  color: #0d0d1a;
+  background: #dd93f2;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 4px 4px 0 #8b5cf6;
+}
+
+.ns-next-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #8b5cf6;
+}
+
+/* Blinking arrow animation */
+.ns-arrow-blink {
+  animation: blink 0.8s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ================================================================
+   SCREEN 2 — MUSEUM HALL
+   ================================================================ */
+.screen-2 {
+  position: relative;
+  min-height: 560px;
+  flex-direction: column;
+}
+
+/* bg2 museum hall background */
+.ns-museum-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('./assets/cards/swatch_nasa_bg.png');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+.ns-museum-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 0, 20, 0.7);
+}
+
+/* Back button */
+.ns-back-btn {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  z-index: 2;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  color: #dd93f2;
+  background: rgba(13, 13, 26, 0.8);
+  border: 2px solid #dd93f2;
+  padding: 0.45rem 0.8rem;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.ns-back-btn:hover {
+  background: #dd93f2;
+  color: #0d0d1a;
+}
+
+/* Museum content layout */
+.ns-museum-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 2rem;
+  padding: 3.5rem 2rem 2rem;
+  height: 100%;
+  min-height: 560px;
+}
+
+/* --- Left: team column --- */
+.ns-team-col {
+  width: 42%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.ns-leader-crown {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  color: #ffd700;
+  letter-spacing: 1px;
+  background: rgba(255, 215, 0, 0.1);
+  border: 2px solid #ffd700;
+  padding: 0.4rem 0.8rem;
+  animation: crownPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes crownPulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(255, 215, 0, 0.3); }
+  50%       { box-shadow: 0 0 20px rgba(255, 215, 0, 0.7); }
+}
+
+/* Team photo pixel frame */
+.ns-team-photo-frame {
+  position: relative;
+  padding: 4px;
+  background: #dd93f2;
+  box-shadow:
+    0 0 0 4px #0d0d1a,
+    0 0 0 8px #dd93f2,
+    0 0 25px rgba(221, 147, 242, 0.4);
+}
+
+.ns-team-photo {
+  width: 100%;
+  max-width: 260px;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  filter: saturate(1.1);
+}
+
+/* Scanline effect over photo */
+.ns-team-photo-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.07) 2px,
+    rgba(0, 0, 0, 0.07) 4px
+  );
+  pointer-events: none;
+}
+
+.ns-team-name-pixel {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.65rem;
+  color: #dd93f2;
+  text-shadow: 2px 2px 0 #8b5cf6;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.ns-team-origin {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.38rem;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.ns-team-quote {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+  line-height: 1.6;
+  font-style: italic;
+  max-width: 240px;
+}
+
+/* --- Right: skills column --- */
+.ns-skills-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ns-skills-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.5rem;
+  color: #dd93f2;
+  letter-spacing: 2px;
+  opacity: 0.9;
+}
+
+.ns-skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ns-skill-item {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  color: #fff;
+  background: rgba(139, 92, 246, 0.18);
+  border-left: 3px solid #8b5cf6;
+  padding: 0.5rem 0.75rem;
+  letter-spacing: 1px;
+  line-height: 1.5;
+  /* staggered slide-in animation triggered by .screen-2-active class */
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 0.4s var(--d, 0ms) ease, transform 0.4s var(--d, 0ms) ease;
+}
+
+.screen-2-active .ns-skill-item {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.ns-spirit-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.7;
+}
+
+/* 22 layers badge */
+.ns-22layers {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  color: #ffd700;
+  letter-spacing: 2px;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid rgba(255, 215, 0, 0.4);
+  background: rgba(255, 215, 0, 0.06);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  animation: blink 1.2s step-end infinite;
+  align-self: flex-start;
+}
+
+/* ---- swatch-card as button reset ---- */
+button.swatch-card {
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 700px) {
+  .screen-1 {
+    min-height: 480px;
+  }
+
+  .ns-top-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ns-badges-row {
+    justify-content: flex-start;
+  }
+
+  .ns-mid-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ns-deco-art {
+    width: 100px;
+  }
+
+  .ns-museum-content {
+    flex-direction: column;
+    padding: 3rem 1rem 1.5rem;
+  }
+
+  .ns-team-col {
+    width: 100%;
+  }
+}
