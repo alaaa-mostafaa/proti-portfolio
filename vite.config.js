@@ -11,11 +11,21 @@ function copyToPublic() {
   const publicDir = path.resolve(__dirname, 'public');
   if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true });
 
-  // Copy sounds directory
+  // Copy sounds directory (physically trim bg.mp3 to 30s ~480KB if larger)
   const soundsDir = path.resolve(__dirname, 'sounds');
   const pubSoundsDir = path.resolve(publicDir, 'sounds');
   if (fs.existsSync(soundsDir)) {
     if (!fs.existsSync(pubSoundsDir)) fs.mkdirSync(pubSoundsDir, { recursive: true });
+    
+    // Trim bg.mp3 to 30 seconds (480,000 bytes) if > 500KB
+    const bgPath = path.resolve(soundsDir, 'bg.mp3');
+    if (fs.existsSync(bgPath)) {
+      const bgBuf = fs.readFileSync(bgPath);
+      if (bgBuf.length > 500000) {
+        fs.writeFileSync(bgPath, bgBuf.subarray(0, 480000));
+      }
+    }
+
     fs.readdirSync(soundsDir).forEach(file => {
       fs.copyFileSync(path.resolve(soundsDir, file), path.resolve(pubSoundsDir, file));
     });

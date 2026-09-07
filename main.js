@@ -61,11 +61,16 @@ function initAudioSystem() {
     bgAudio.loop = true;
     bgAudio.volume = 0.28;
 
-    // Reset loop every 30 seconds to maintain tight 30s audio loop
+    // 30-second continuous looping logic
     bgAudio.addEventListener('timeupdate', () => {
       if (bgAudio.currentTime >= 30) {
         bgAudio.currentTime = 0;
       }
+    });
+
+    bgAudio.addEventListener('ended', () => {
+      bgAudio.currentTime = 0;
+      bgAudio.play().catch(() => {});
     });
   } catch (e) {}
 
@@ -106,11 +111,9 @@ function initKbdNav() {
   window.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowUp') {
       if (keyUp) keyUp.classList.add('pressed');
-      playClickSound();
       window.scrollBy({ top: -80, behavior: 'smooth' });
     } else if (e.key === 'ArrowDown') {
       if (keyDown) keyDown.classList.add('pressed');
-      playClickSound();
       window.scrollBy({ top: 80, behavior: 'smooth' });
     }
   });
@@ -121,14 +124,14 @@ function initKbdNav() {
   });
 
   if (keyUp) {
-    keyUp.addEventListener('click', () => {
-      playClickSound();
+    keyUp.addEventListener('click', (e) => {
+      e.stopPropagation();
       window.scrollBy({ top: -140, behavior: 'smooth' });
     });
   }
   if (keyDown) {
-    keyDown.addEventListener('click', () => {
-      playClickSound();
+    keyDown.addEventListener('click', (e) => {
+      e.stopPropagation();
       window.scrollBy({ top: 140, behavior: 'smooth' });
     });
   }
