@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSwatchDialogues();
   initKbdNav();
   initAudioSystem();
+  initSplashScreen();
 
   // Attach global click sound listener for interactive buttons and cards
   document.addEventListener('click', (e) => {
@@ -72,6 +73,7 @@ window.resumeBgMusicAfterVideo = function () {
 
 /**
  * Background Audio System (30s loop, played by default, paused only for NASA video)
+ * Audio is unlocked by the splash screen interaction.
  */
 function initAudioSystem() {
   try {
@@ -79,7 +81,6 @@ function initAudioSystem() {
     if (!bgAudio) {
       bgAudio = new Audio('./sounds/bg.mp3');
       bgAudio.loop = true;
-      bgAudio.autoplay = true;
     }
     bgAudio.volume = 0.3;
 
@@ -102,24 +103,67 @@ function initAudioSystem() {
     vid.pause();
     vid.muted = true;
   }
+}
 
-  const enableAudio = () => {
-    if (!bgAudio || isPausedForVideo) return;
-    bgAudio.muted = false;
-    bgAudio.play().then(() => {
-      ['mousemove', 'pointermove', 'scroll', 'mouseenter', 'focus', 'click', 'touchstart', 'keydown'].forEach(evt => {
-        window.removeEventListener(evt, enableAudio);
-      });
-    }).catch(() => {});
+/**
+ * Splash Screen — unlocks audio via real user gesture, then reveals portfolio
+ */
+function initSplashScreen() {
+  const splash = document.getElementById('splash-screen');
+  const enterBtn = document.getElementById('splash-enter-btn');
+  if (!splash || !enterBtn) return;
+
+  // Spawn floating particles for ambient effect
+  const particleContainer = splash.querySelector('.splash-particles');
+  if (particleContainer) {
+    for (let i = 0; i < 20; i++) {
+      const p = document.createElement('div');
+      p.classList.add('splash-particle');
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDuration = (4 + Math.random() * 6) + 's';
+      p.style.animationDelay = (Math.random() * 5) + 's';
+      p.style.width = (2 + Math.random() * 3) + 'px';
+      p.style.height = p.style.width;
+      particleContainer.appendChild(p);
+    }
+  }
+
+  // This click handler runs inside a real user gesture → browser allows audio
+  const handleEnter = () => {
+    enterBtn.removeEventListener('click', handleEnter);
+    enterBtn.removeEventListener('touchend', handleEnter);
+
+    // Unlock audio context
+    try {
+      const AudioCtxCls = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtxCls) {
+        const ctx = new AudioCtxCls();
+        ctx.resume().catch(() => {});
+        // Create and immediately play a silent buffer to fully unlock audio pipeline
+        const buf = ctx.createBuffer(1, 1, 22050);
+        const src = ctx.createBufferSource();
+        src.buffer = buf;
+        src.connect(ctx.destination);
+        src.start(0);
+      }
+    } catch (e) {}
+
+    // Now unmute and play the bg audio — this is inside a user gesture so it will work
+    if (bgAudio) {
+      bgAudio.muted = false;
+      bgAudio.volume = 0.3;
+      bgAudio.play().catch(() => {});
+    }
+
+    // Animate splash out
+    splash.classList.add('splash-exit');
+    setTimeout(() => {
+      splash.style.display = 'none';
+    }, 700);
   };
 
-  enableAudio();
-  window.addEventListener('load', enableAudio, { once: true });
-  window.addEventListener('pageshow', enableAudio);
-
-  ['mousemove', 'pointermove', 'scroll', 'mouseenter', 'focus', 'click', 'touchstart', 'keydown'].forEach(evt => {
-    window.addEventListener(evt, enableAudio, { once: false });
-  });
+  enterBtn.addEventListener('click', handleEnter);
+  enterBtn.addEventListener('touchend', handleEnter);
 }
 
 /**

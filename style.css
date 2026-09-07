@@ -1,4 +1,159 @@
 /* ==========================================================================
+   SPLASH SCREEN — Entry gate that unlocks browser audio policy
+   ========================================================================== */
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fecdda;
+  overflow: hidden;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.splash-screen.splash-exit {
+  opacity: 0;
+  transform: scale(1.08);
+  pointer-events: none;
+}
+
+.splash-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 40%, rgba(180, 80, 130, 0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 30% 70%, rgba(139, 92, 246, 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 70% 30%, rgba(200, 100, 150, 0.06) 0%, transparent 60%);
+}
+
+.splash-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-align: center;
+  padding: 2rem;
+  animation: splashContentIn 0.8s ease-out;
+}
+
+@keyframes splashContentIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.splash-greeting {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  color: rgba(120, 50, 80, 0.75);
+  text-transform: uppercase;
+}
+
+.splash-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 900;
+  color: #18181b;
+  letter-spacing: 0.08em;
+  margin: 0.3rem 0;
+}
+
+.splash-sub {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: rgba(80, 30, 60, 0.55);
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+}
+
+.splash-enter-btn {
+  position: relative;
+  border: 2px solid rgba(139, 50, 90, 0.5);
+  background: rgba(139, 50, 90, 0.08);
+  color: #8b3a5a;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.85rem;
+  padding: 1rem 3rem;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  letter-spacing: 0.15em;
+  min-height: 56px;
+}
+
+.splash-enter-btn:hover,
+.splash-enter-btn:active {
+  background: rgba(139, 50, 90, 0.15);
+  border-color: #8b3a5a;
+  color: #4a1a30;
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(139, 50, 90, 0.2), 0 0 60px rgba(200, 100, 150, 0.1);
+}
+
+.splash-btn-text {
+  position: relative;
+  z-index: 1;
+}
+
+.splash-btn-glow {
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(139, 50, 90, 0.2), rgba(200, 100, 150, 0.2));
+  opacity: 0;
+  animation: splashBtnPulse 2s ease-in-out infinite;
+}
+
+@keyframes splashBtnPulse {
+  0%, 100% { opacity: 0; transform: scale(1); }
+  50%      { opacity: 0.5; transform: scale(1.05); }
+}
+
+.splash-hint {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.65rem;
+  color: rgba(100, 40, 70, 0.4);
+  letter-spacing: 0.08em;
+  margin-top: 0.8rem;
+  animation: splashHintBlink 2.5s ease-in-out infinite;
+}
+
+@keyframes splashHintBlink {
+  0%, 100% { opacity: 0.25; }
+  50%      { opacity: 0.6; }
+}
+
+/* Floating ambient particles */
+.splash-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.splash-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(180, 80, 130, 0.35);
+  animation: splashFloat linear infinite;
+}
+
+@keyframes splashFloat {
+  0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
+
+/* ==========================================================================
    DESIGN SYSTEM & CUSTOM VARIABLES
    ========================================================================== */
 :root {
@@ -3477,6 +3632,83 @@ section.swatches-section.section {
 
 .pro-footer .footer-simple-link:hover {
   color: var(--color-primary);
+}
+
+/* ==========================================================================
+   MOBILE PHONE MODAL TOUCH USABILITY & FULL SCROLLABILITY FIX
+   ========================================================================== */
+@media (max-width: 768px), (pointer: coarse) {
+  /* Hide keyboard arrow instructions on mobile phones */
+  .kbd-nav-hint, #kbd-nav-hint {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* Make modal containers top-aligned and scrollable */
+  .nasa-modal, .acl-modal, .bach-modal, .bank-modal {
+    align-items: flex-start !important;
+    justify-content: center !important;
+    padding: 0.5rem 0.25rem !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* Modal panel responsive sizing */
+  .nasa-modal-panel, .acl-modal-panel, .bach-modal-panel, .bank-modal-panel {
+    max-height: 94vh !important;
+    height: auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    margin-top: 0.5rem !important;
+    margin-bottom: 2rem !important;
+    border-width: 2px !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* Modal screens and content flow */
+  .nasa-screen, .acl-screen, .bach-screen, .bank-screen {
+    min-height: auto !important;
+    height: auto !important;
+    flex-direction: column !important;
+    padding-bottom: 4rem !important;
+  }
+
+  .bs-content, .bs-tech-content, .as-content, .as-tech-content, .bank-tech-content, .ns-video-content, .bm-left, .bm-body {
+    min-height: auto !important;
+    height: auto !important;
+    flex-direction: column !important;
+    padding: 1rem 0.75rem 4rem 0.75rem !important;
+  }
+
+  /* Full-width touch-friendly buttons at bottom of screens */
+  .bs-next-btn, .bank-next-btn, .as-next-btn, .ns-next-btn, .bs-back-btn, .bank-back-btn {
+    position: relative !important;
+    bottom: auto !important;
+    right: auto !important;
+    left: auto !important;
+    margin: 1.5rem 0 0 0 !important;
+    width: 100% !important;
+    justify-content: center !important;
+    font-size: 0.55rem !important;
+    padding: 0.85rem 1rem !important;
+    min-height: 48px !important;
+    z-index: 50 !important;
+    box-sizing: border-box !important;
+  }
+
+  .bs-btns, .bank-btns, .as-brand, .ns-brand-row {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.75rem !important;
+  }
+
+  .bs-btn-pixel, .bank-btn-pixel, .as-btn-pixel {
+    width: 100% !important;
+    text-align: center !important;
+    justify-content: center !important;
+  }
 }
 
 .pro-footer .footer-divider {
