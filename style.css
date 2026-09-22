@@ -41,8 +41,15 @@
 }
 
 @keyframes splashContentIn {
-  from { opacity: 0; transform: translateY(30px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .splash-greeting {
@@ -111,8 +118,17 @@
 }
 
 @keyframes splashBtnPulse {
-  0%, 100% { opacity: 0; transform: scale(1); }
-  50%      { opacity: 0.5; transform: scale(1.05); }
+
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: scale(1.05);
+  }
 }
 
 .splash-hint {
@@ -125,8 +141,15 @@
 }
 
 @keyframes splashHintBlink {
-  0%, 100% { opacity: 0.25; }
-  50%      { opacity: 0.6; }
+
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
 }
 
 /* Floating ambient particles */
@@ -147,10 +170,23 @@
 }
 
 @keyframes splashFloat {
-  0%   { transform: translateY(100vh) scale(0); opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 1; }
-  100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+  0% {
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-10vh) scale(1);
+    opacity: 0;
+  }
 }
 
 /* ==========================================================================
@@ -340,7 +376,7 @@ a {
   left: 0;
   width: 100%;
   height: var(--nav-height);
-  z-index: 100;
+  z-index: 1000;
   display: flex;
   align-items: center;
   transition: all 0.4s var(--ease-smooth);
@@ -691,17 +727,20 @@ a {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 100;
+  z-index: 500;
   pointer-events: none;
 }
 
 
 /* ── Card Beating Pulse Effect when character is near ── */
 @keyframes cardBeat {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1) translateY(0);
     filter: drop-shadow(0 8px 25px rgba(192, 57, 43, 0.25));
   }
+
   50% {
     transform: scale(1.04) translateY(-5px);
     filter: drop-shadow(0 16px 36px rgba(192, 57, 43, 0.5));
@@ -756,9 +795,12 @@ a {
 }
 
 @keyframes mouseCursorClick {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translate(0, 0) scale(1);
   }
+
   40% {
     transform: translate(2px, 2px) scale(0.85);
   }
@@ -781,10 +823,12 @@ a {
     transform: scale(0.4);
     opacity: 0.9;
   }
+
   50% {
     transform: scale(1.4);
     opacity: 0;
   }
+
   100% {
     transform: scale(1.4);
     opacity: 0;
@@ -808,11 +852,14 @@ a {
   pointer-events: all;
   cursor: pointer;
   outline: none;
+  z-index: 100;
 }
 
 .char-sprite {
   width: 100%;
   height: 100%;
+  position: relative;
+  z-index: 10;
   background-repeat: no-repeat;
   background-size: 400% 100%;
   background-position-x: 0%;
@@ -936,8 +983,15 @@ a {
 }
 
 @keyframes floatHint {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
 }
 
 .kbd-keys-col {
@@ -994,7 +1048,8 @@ a {
   color: #c0392b;
 }
 
-@media (max-width: 768px), (pointer: coarse) {
+@media (max-width: 768px),
+(pointer: coarse) {
   .kbd-nav-hint {
     display: none !important;
   }
@@ -1549,7 +1604,7 @@ a {
   background-color: var(--color-bg);
   margin-top: 0;
   position: relative;
-  z-index: 10;
+  z-index: 150;
   overflow: visible;
 }
 
@@ -2413,6 +2468,7 @@ section.swatches-section.section {
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   background: #140a00;
   box-shadow:
     0 0 0 3px #f97316,
@@ -2460,6 +2516,8 @@ section.swatches-section.section {
   width: 100%;
   position: relative;
   overflow: visible;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Shared dark background */
@@ -2854,10 +2912,12 @@ section.swatches-section.section {
 }
 
 /* ================================================================
-   SCREEN 2 — TECH STACK
+   SCREEN 2, 3, 4 — TECH STACK & RESULTS
    ================================================================ */
-.bs-screen-2 {
-  min-height: 560px;
+.bs-screen-2,
+.bs-screen-3,
+.bs-screen-4 {
+  min-height: 520px;
   flex-direction: column;
 }
 
@@ -2887,8 +2947,10 @@ section.swatches-section.section {
   z-index: 2;
   display: flex;
   gap: 2rem;
-  padding: 3.5rem 2rem 2rem;
-  min-height: 560px;
+  padding: 3.5rem 2rem 1.5rem;
+  min-height: 380px;
+  flex: 1;
+  align-items: center;
 }
 
 .bs-tools-col {
@@ -2946,7 +3008,7 @@ section.swatches-section.section {
     inset 0 0 14px rgba(20, 10, 0, 0.8);
   border-radius: 4px;
   overflow: hidden;
-  flex: 1;
+  max-height: 240px;
 }
 
 .bs-arch-img {
@@ -2955,7 +3017,7 @@ section.swatches-section.section {
   display: block;
   object-fit: contain;
   background: #0c0700;
-  max-height: 380px;
+  max-height: 240px;
 }
 
 .bs-arch-desc {
@@ -3285,6 +3347,7 @@ section.swatches-section.section {
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   background: #030810;
   border: 4px solid #a0253a;
   box-shadow:
@@ -3367,7 +3430,7 @@ section.swatches-section.section {
 
 .bank-screen {
   width: 100%;
-  min-height: 560px;
+  min-height: 400px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -3375,7 +3438,7 @@ section.swatches-section.section {
   padding: 4rem 3rem 3rem;
   z-index: 2;
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.3s ease;
 }
 
 .bank-screen.bank-active {
@@ -3641,9 +3704,12 @@ section.swatches-section.section {
 /* ==========================================================================
    MOBILE PHONE MODAL TOUCH USABILITY & FULL SCROLLABILITY FIX
    ========================================================================== */
-@media (max-width: 768px), (pointer: coarse) {
+@media (max-width: 768px),
+(pointer: coarse) {
+
   /* Hide keyboard arrow instructions on mobile phones */
-  .kbd-nav-hint, #kbd-nav-hint {
+  .kbd-nav-hint,
+  #kbd-nav-hint {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
@@ -3651,48 +3717,69 @@ section.swatches-section.section {
   }
 
   /* Make modal containers top-aligned and scrollable */
-  .nasa-modal, .acl-modal, .bach-modal, .bank-modal {
+  .nasa-modal,
+  .acl-modal,
+  .bach-modal,
+  .bank-modal {
     align-items: flex-start !important;
-    justify-content: center !important;
-    padding: 0.5rem 0.25rem !important;
+    justify-content: flex-start !important;
+    padding: 0 !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
   }
 
-  /* Modal panel responsive sizing */
-  .nasa-modal-panel, .acl-modal-panel, .bach-modal-panel, .bank-modal-panel {
-    max-height: 94vh !important;
+  /* Modal panel responsive sizing — full-height scroll container */
+  .nasa-modal-panel,
+  .acl-modal-panel,
+  .bach-modal-panel,
+  .bank-modal-panel {
+    max-height: none !important;
     height: auto !important;
-    overflow-y: auto !important;
+    overflow-y: visible !important;
     overflow-x: hidden !important;
-    margin-top: 0.5rem !important;
-    margin-bottom: 2rem !important;
+    margin: 0 !important;
     border-width: 2px !important;
     -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
   }
 
   /* Modal screens and content flow */
-  .nasa-screen, .acl-screen, .bach-screen, .bank-screen {
+  .nasa-screen,
+  .acl-screen,
+  .bach-screen,
+  .bank-screen {
     min-height: auto !important;
     height: auto !important;
     flex-direction: column !important;
-    padding-bottom: 4rem !important;
+    padding: 3rem 1rem 2rem 1rem !important;
   }
 
-  .bs-content, .bs-tech-content, .as-content, .as-tech-content, .bank-tech-content, .ns-video-content, .bm-left, .bm-body {
+  .bs-content,
+  .bs-tech-content,
+  .as-content,
+  .as-tech-content,
+  .bank-tech-content,
+  .ns-video-content,
+  .bm-left,
+  .bm-body {
     min-height: auto !important;
     height: auto !important;
     flex-direction: column !important;
-    padding: 1rem 0.75rem 4rem 0.75rem !important;
+    padding: 1rem 0.75rem 1rem 0.75rem !important;
   }
 
   /* Full-width touch-friendly buttons at bottom of screens */
-  .bs-next-btn, .bank-next-btn, .as-next-btn, .ns-next-btn, .bs-back-btn, .bank-back-btn {
+  .bs-next-btn,
+  .bank-next-btn,
+  .as-next-btn,
+  .ns-next-btn,
+  .bs-back-btn,
+  .bank-back-btn {
     position: relative !important;
     bottom: auto !important;
     right: auto !important;
     left: auto !important;
-    margin: 1.5rem 0 0 0 !important;
+    margin: 1.5rem auto 0 auto !important;
     width: 100% !important;
     justify-content: center !important;
     font-size: 0.55rem !important;
@@ -3702,31 +3789,43 @@ section.swatches-section.section {
     box-sizing: border-box !important;
   }
 
-  .bs-btns, .bank-btns, .as-brand, .ns-brand-row {
+  .bs-btns,
+  .bank-btns,
+  .as-brand,
+  .ns-brand-row {
     flex-direction: column !important;
     width: 100% !important;
     gap: 0.75rem !important;
   }
 
-  .bs-btn-pixel, .bank-btn-pixel, .as-btn-pixel {
+  .bs-btn-pixel,
+  .bank-btn-pixel,
+  .as-btn-pixel {
     width: 100% !important;
     text-align: center !important;
     justify-content: center !important;
   }
 
   /* Disable expensive backdrop-filter on mobile for performance */
-  .bank-modal-backdrop, .bach-modal-backdrop, .acl-modal-backdrop {
+  .bank-modal-backdrop,
+  .bach-modal-backdrop,
+  .acl-modal-backdrop,
+  .nasa-modal-backdrop {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
 
   /* Ensure bg/overlay layers never steal touches on mobile */
-  .bs-bg, .bs-overlay, .bank-bg, .bank-overlay {
+  .bs-bg,
+  .bs-overlay,
+  .bank-bg,
+  .bank-overlay {
     pointer-events: none !important;
   }
 
   /* Ensure screens allow visible overflow for buttons */
-  .bach-screen, .bank-screen {
+  .bach-screen,
+  .bank-screen {
     overflow: visible !important;
   }
 
@@ -3734,6 +3833,11 @@ section.swatches-section.section {
   .swatch-card {
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
+  }
+
+  /* Character must not block swatch card taps on mobile */
+  .char-wrap {
+    pointer-events: none !important;
   }
 }
 

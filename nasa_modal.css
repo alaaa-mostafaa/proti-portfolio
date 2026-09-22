@@ -21,8 +21,13 @@
 }
 
 @keyframes modalFadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .nasa-modal-backdrop {
@@ -52,8 +57,15 @@
 }
 
 @keyframes panelSlideUp {
-  from { transform: translateY(40px) scale(0.97); opacity: 0; }
-  to   { transform: translateY(0) scale(1); opacity: 1; }
+  from {
+    transform: translateY(40px) scale(0.97);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
 
 /* ---- Close button ---- */
@@ -116,8 +128,7 @@
       rgba(5, 0, 20, 0.88) 0%,
       rgba(5, 0, 20, 0.35) 30%,
       rgba(5, 0, 20, 0.35) 65%,
-      rgba(5, 0, 20, 0.92) 100%
-    );
+      rgba(5, 0, 20, 0.92) 100%);
 }
 
 /* --- All UI content sits above video + overlay --- */
@@ -220,8 +231,15 @@
 }
 
 @keyframes pixelPop {
-  from { transform: scale(0.5); opacity: 0; }
-  to   { transform: scale(1);   opacity: 1; }
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* Deco art: smaller floating accent */
@@ -235,8 +253,13 @@
 }
 
 @keyframes floatDeco {
-  from { transform: translateY(0px); }
-  to   { transform: translateY(-10px); }
+  from {
+    transform: translateY(0px);
+  }
+
+  to {
+    transform: translateY(-10px);
+  }
 }
 
 .ns-logo-img {
@@ -340,8 +363,15 @@
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 /* ================================================================
@@ -424,8 +454,15 @@
 }
 
 @keyframes crownPulse {
-  0%, 100% { box-shadow: 0 0 6px rgba(255, 215, 0, 0.3); }
-  50%       { box-shadow: 0 0 20px rgba(255, 215, 0, 0.7); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+  }
 }
 
 /* Team photo pixel frame */
@@ -453,13 +490,11 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.07) 2px,
-    rgba(0, 0, 0, 0.07) 4px
-  );
+  background: repeating-linear-gradient(0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.07) 2px,
+      rgba(0, 0, 0, 0.07) 4px);
   pointer-events: none;
 }
 

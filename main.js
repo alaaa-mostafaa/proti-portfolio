@@ -46,7 +46,7 @@ function playClickSound() {
     gain.connect(_clickCtx.destination);
     osc.start();
     osc.stop(_clickCtx.currentTime + 0.04);
-  } catch (e) {}
+  } catch (e) { }
 }
 window.playClickSound = playClickSound;
 
@@ -63,7 +63,7 @@ window.pauseBgMusicForVideo = function () {
 window.resumeBgMusicAfterVideo = function () {
   isPausedForVideo = false;
   if (bgAudio) {
-    bgAudio.play().catch(() => {});
+    bgAudio.play().catch(() => { });
   }
 };
 
@@ -89,9 +89,9 @@ function initAudioSystem() {
 
     bgAudio.addEventListener('ended', () => {
       bgAudio.currentTime = 0;
-      bgAudio.play().catch(() => {});
+      bgAudio.play().catch(() => { });
     });
-  } catch (e) {}
+  } catch (e) { }
 
   // Ensure NASA video is explicitly paused and muted on initial page load
   const vid = document.getElementById('ns-video');
@@ -134,7 +134,7 @@ function initSplashScreen() {
       const AudioCtxCls = window.AudioContext || window.webkitAudioContext;
       if (AudioCtxCls) {
         const ctx = new AudioCtxCls();
-        ctx.resume().catch(() => {});
+        ctx.resume().catch(() => { });
         // Create and immediately play a silent buffer to fully unlock audio pipeline
         const buf = ctx.createBuffer(1, 1, 22050);
         const src = ctx.createBufferSource();
@@ -142,13 +142,13 @@ function initSplashScreen() {
         src.connect(ctx.destination);
         src.start(0);
       }
-    } catch (e) {}
+    } catch (e) { }
 
     // Now unmute and play the bg audio — this is inside a user gesture so it will work
     if (bgAudio) {
       bgAudio.muted = false;
       bgAudio.volume = 0.3;
-      bgAudio.play().catch(() => {});
+      bgAudio.play().catch(() => { });
     }
 
     // Animate splash out
@@ -232,7 +232,7 @@ function initSwatchDialogues() {
   // Tight threshold: character must be vertically within ~160px of the swatch center
   const PROXIMITY_PX = 160;
 
-  window._swatchProximityCheck = function(charPageY) {
+  window._swatchProximityCheck = function (charPageY) {
     const swatchIds = ['swatch-nasa', 'swatch-acl', 'swatch-bach', 'swatch-spring'];
     let closestId = null;
     let closestDist = Infinity;
@@ -490,6 +490,7 @@ window.openBachModal = function () {
   if (!modal) return;
   modal.style.display = 'flex';
   document.body.style.overflow = 'hidden';
+  if (window.bachGoTo) window.bachGoTo(1);
 
   // Fetch stats.json
   fetch('./stats.json')
@@ -521,6 +522,7 @@ window.closeBachModal = function () {
   modal.style.display = 'none';
   document.body.style.overflow = '';
   stopLogAnimation();
+  if (window.bachGoTo) window.bachGoTo(1);
 };
 
 let logInterval = null;
@@ -667,6 +669,7 @@ window.closeBankModal = function () {
   if (!modal) return;
   modal.style.display = 'none';
   document.body.style.overflow = '';
+  if (window.bankGoTo) window.bankGoTo(1);
 };
 
 window.bankGoTo = function (screenIndex) {
